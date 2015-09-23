@@ -61,6 +61,7 @@ target/
 *.xml
 *.catalog
 *.iml
+.idea
 
 # Data Files
 data
