@@ -2,13 +2,13 @@ __author__ = 'theopavlakou'
 
 import unittest
 import numpy as np
-import optimisation.neural_nets.Neural_Net as nn
-import optimisation.neural_nets.costfunctions.Squared_Loss as sl
-import optimisation.neural_nets.costfunctions.Logistic_Loss as ll
-import optimisation.neural_nets.costfunctions.Cross_Entropy_Loss as cel
+import Neural_Net as nn
+import costfunctions.Squared_Loss as sl
+import costfunctions.Logistic_Loss as ll
+import costfunctions.Cross_Entropy_Loss as cel
 
-import optimisation.neural_nets.activationfunctions.Identity as identity
-import optimisation.neural_nets.activationfunctions.sigmoid as sigmoid
+import activationfunctions.Identity as identity
+import activationfunctions.sigmoid as sigmoid
 
 class TestNeuralNets(unittest.TestCase):
 
@@ -204,12 +204,12 @@ class TestNeuralNets(unittest.TestCase):
         X = np.random.random((4, 100))
         # Should get something pretty random
         print("Input is {0}".format(X[:,1].flatten()))
-        print("Evaluation before training: {0}".format(self.nn.feed_forward(X[:, 1])))
+        print("Evaluation before training: {0}".format(self.nn.feed_forward(X[:, 1]).T))
         self.nn.train_sgd(X, X, 10000, mini_batch_size=6, step_size=0.05)
         # Should get something close to the input
-        print("Evaluation after training: {0}".format(self.nn.feed_forward(X[:, 1])))
+        print("Evaluation after training: {0}".format(self.nn.feed_forward(X[:, 1]).T))
         print("Final matrix of weights is: \n {0}".format(np.dot(self.nn.layers[0].W, self.nn.layers[1].W)))
-        print("Final bias terms: \n {0} and {1}".format(self.nn.layers[0].b, self.nn.layers[1].b))
+        print("Final bias terms: \n {0} and {1}".format(self.nn.layers[0].b.T, self.nn.layers[1].b.T))
 
     def test_train_3_layers_sigmoid_sgd_multiple_data_points(self):
         """

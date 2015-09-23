@@ -244,7 +244,6 @@ class Neural_Net(object):
                             on it. This is a list with the first term
                             being X_test and the second being Y_test
                             in exactly the same format as X and Y, resp.
-        :param step_size:   the step size for GD.
 
         :return costs:  The costs on the training data.
         :return accuracies: The accuracies on the test data, if provided.
@@ -337,13 +336,12 @@ class Neural_Net(object):
         :param Y:   the set of output targets. This is a (m, N) matrix,
                     where m is the output dimension and N is the number of
                     data points.
-        :param n_iter:  the number of iterations of SVRG.
-        :param step_size:   the step size for SVRG.
+        :param n_iter:  the number of iterations of SAGA.
+        :param step_size:   the step size for SAGA.
         :param test_data:   if test_data exists, it calculates the accuracy
                             on it. This is a list with the first term
                             being X_test and the second being Y_test
                             in exactly the same format as X and Y, resp.
-        :param step_size:   the step size for GD.
 
         :return costs:  The costs on the training data.
         :return accuracies: The accuracies on the test data, if provided.
@@ -441,7 +439,6 @@ class Neural_Net(object):
                             on it. This is a list with the first term
                             being X_test and the second being Y_test
                             in exactly the same format as X and Y, resp.
-        :param step_size:   the step size for GD.
 
         :return costs:  The costs on the training data.
         :return accuracies: The accuracies on the test data, if provided.
@@ -513,6 +510,7 @@ class Neural_Net(object):
         :param y_hat: the output of the Neural_Net for the current input.
         :param y: the target for the current input.
         :param x: the input. This is only required if index == 0.
+
         :return: the update for W.
         :return: the update for b.
         """
@@ -645,7 +643,7 @@ class Neural_Net(object):
         return np.mean(C==Y)
 
 
-    def cost_and_accuracy(self, X, Y, costs, accuracies, test_data, verbose=True):
+    def cost_and_accuracy(self, X, Y, costs, accuracies, test_data, verbose=False):
         """
         Appends the cost for the input given the current parameters
         and the labels to a cost list and also the accuracy at
@@ -658,8 +656,14 @@ class Neural_Net(object):
                     where m is the output dimension and N is the number of
                     data points.
         :param costs: a list to append the cost to.
-        :param accuracies: a list to append the accuracy to.
+        :param accuracies:  a list to append the accuracy to.
+        :param test_data:   A tuple (X_test, Y_test), with X_test being of the
+                            same dimension as X and likewise with Y. This is the
+                            test set. If it is not present, the classification
+                            accuracy will not be appended to.
+        :param verbose: If True, will output more information to console.
         """
+
         Y_hat = self.feed_forward(X)
         costs.append(self.loss_given_output(Y_hat, Y))
         if verbose:
